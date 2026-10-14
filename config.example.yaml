@@ -1,0 +1,26 @@
+# Agent configuration template. Copy to config.yaml (make config); config.yaml is git-ignored.
+# Agent configuration (BasisWeb API).
+# Env vars OPENAI_BASE_URL / OPENAI_API_KEY / OPENAI_MODEL override the llm block.
+llm:
+  base_url: https://api.basisweb.ru/v1
+  api_key: ""                            # put your key here (config.yaml is git-ignored)
+  model: gpt-6-luna                      # list available ids: make models
+  temperature: 0
+  timeout: 300                           # seconds per model request
+
+policy: policy.yaml                      # relative to this file, must live outside the workspace
+runs_dir: runs                           # run state, snapshots and journal
+mode: safe                               # default execution mode: safe | auto
+require_verification: true               # final answer needs a successful bash run after the last file change
+max_finish_nudges: 5                     # how many times to send the model back before accepting its answer
+
+limits:
+  bash_timeout: 30                       # seconds per bash command
+  max_output: 8000                       # chars per single tool result
+
+# One budget per run_id, shared by planning, execution and recovery.
+budget:
+  model_requests: 30
+  tool_calls: 60
+  side_effects: 15
+  output_chars: 200000                   # total size of tool results returned to the model

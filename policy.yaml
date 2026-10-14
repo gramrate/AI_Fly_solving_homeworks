@@ -1,0 +1,27 @@
+# Security policy. Lives outside the workspace, so agent tools cannot reach or modify it.
+# Deny beats allow; anything not explicitly allowed is rejected.
+workspace: workspace          # relative to this file
+
+commands:
+  # Exact simple commands (whitespace-normalized). Pipes, redirects, $(), quotes, ; && etc. are always rejected.
+  allow:
+    - python3 -m unittest -v
+    - python3 -m unittest
+    - python3 -m unittest -v test_order.py
+    - python3 -m unittest test_order.py
+    - ls
+    - ls -la
+  # Token prefixes: "rm" blocks "rm x", "rm -rf /", ...
+  deny:
+    - rm
+    - git
+    - curl
+    - python3 -c
+    - bash
+
+directories:
+  # Relative to the workspace; canonicalized on load and must stay inside it.
+  allow:
+    - .
+  deny:
+    - private
