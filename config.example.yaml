@@ -12,7 +12,7 @@ policy: policy.yaml                      # relative to this file, must live outs
 runs_dir: runs                           # run state, snapshots and journal
 mode: safe                               # default execution mode: safe | auto
 require_verification: true               # final answer needs a successful bash run after the last file change
-max_finish_nudges: 5                     # how many times to send the model back before accepting its answer
+max_finish_nudges: 2                     # how many times to send the model back before accepting its answer
 
 limits:
   bash_timeout: 30                       # seconds per bash command

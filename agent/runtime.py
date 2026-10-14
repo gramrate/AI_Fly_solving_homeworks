@@ -177,9 +177,11 @@ class Agent:
             nudge = f"Task {self._current_task()['id']} is not verified yet. Continue it or call complete_task."
         elif not self._verified() and s.setdefault("finish_nudges", 0) < self.cfg.get("max_finish_nudges", 2):
             s["finish_nudges"] += 1
-            nudge = ("Not finished: the runtime has not seen a successful bash run of the tests after your last file "
-                     "change. Do not ask the user for files: find them with list_files, apply the fix with write_file "
-                     "(not in text), then run the tests with bash.")
+            nudge = ("The runtime has not seen a successful bash run of the tests after your last file change. "
+                     "If the task requires changing code: do not ask the user for files, find them with list_files, "
+                     "apply the change with write_file (not in text), then run the tests with bash. "
+                     "If the task needs no file changes or you refuse it, do not change any files: "
+                     "just repeat your final answer.")
         else:
             s["status"], s["final"] = "done", content
             return
